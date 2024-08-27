@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: Service2
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: file:./static/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/fangche?createDatabaseIfNotExist=true&serverTimezone=GMT%2B8&useSSL=true
+    username: root
+    password:
+  servlet:
+    multipart:
+      max-file-size: 1204MB
+      max-request-size: 1024MB
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+server:
+  port: 8082
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+eureka:
+  client: #客户端注册到eureka列表中
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    prefer-ip-address: true #显示访问url 客户端在注册时使用自己的IP而不是主机名
+    #    # 实例id
+    #    instance-id: ${spring.cloud.ip-address}:${spring.application.name}:${server.port}
+    instance-id: Service2  #注册中心显示出来的微服务名称

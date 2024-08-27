@@ -1,0 +1,17 @@
+spring:
+  config:
+    import: "optional:configserver:"  # 启用Config Server的自动配置
+  application:
+    name: Service2
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888  # Config Server的地址和端口
+      #uri: http://100.10.10.3:8888  # docker环境下
+      name: Service2  # 应用程序的名称，用于从Config Server加载配置
+      profile: dev  # 环境的名称，用于从Config Server加载配置
+      label: master  # 如果你使用Git作为后端存储，这是分支的名称；对于本地文件系统，这个值通常可以省略或设置为`master`
+server:
+  port: 8082
+
+
+

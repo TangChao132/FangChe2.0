@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-fangche
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      fangchen-network:
+        ipv4_address: 100.10.10.4
+  configserver:
+    build:
+      context: ./ConfigServer
+      dockerfile: Dockerfile
+    image: configserver:latest
+    container_name: configserver
+    ports:
+      - "8888:8888"
+    networks:
+      fangchen-network:
+        ipv4_address: 100.10.10.3
+
+  gateway:
+    image: gateway:latest
+    build:
+      context: ./Gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - configserver
+    networks:
+      fangchen-network:
+        ipv4_address: 100.10.10.2
+  
+  service1:
+    build:
+      context: ./Service1
+      dockerfile: Dockerfile
+    image: service1:latest
+    container_name: service1
+    ports:
+      - "8081:8081"
+    depends_on:
+      - gateway
+      - configserver
+    networks:
+      fangchen-network:
+        ipv4_address: 100.10.10.5
+    
+  service2:
+    build:
+      context: ./Service2
+      dockerfile: Dockerfile
+    image: service2:latest
+    container_name: service2
+    ports:
+      - "8082:8082"
+    depends_on:
+      - gateway
+      - configserver
+    networks:
+      fangchen-network:
+        ipv4_address: 100.10.10.6
+networks:
+  fangchen-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 100.10.10.0/24
+          gateway: 100.10.10.1

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: ConfigServer
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:/config-repo # ????????classpath?????????????
+eureka:
+  client: #客户端注册到eureka列表中
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    prefer-ip-address: true #显示访问url 客户端在注册时使用自己的IP而不是主机名
+    #    # 实例id
+    #    instance-id: ${spring.cloud.ip-address}:${spring.application.name}:${server.port}
+    instance-id: ConfigServer  #注册中心显示出来的微服务名称
+
+server:
+  port: 8888

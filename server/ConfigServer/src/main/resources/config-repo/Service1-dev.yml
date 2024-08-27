@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: Service1
+  # 静态资源访问
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: file:./static/
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/fangche?createDatabaseIfNotExist=true&serverTimezone=GMT%2B8&useSSL=true
+    #url: jdbc:mysql://100.10.10.4:3306/fangche?createDatabaseIfNotExist=true&serverTimezone=GMT%2B8&useSSL=true
+    username: root
+    password:
+  # 邮件服务
+  mail:
+    host: smtp.qq.com
+    username: fangche-official@qq.com
+    password: bjguudgalptgbdie
+    port: 587
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: false
+            required: false
+
+server:
+  port: 8081
+
+logging:
+  level:
+    web: DEBUG
+eureka:
+  client: #客户端注册到eureka列表中
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    prefer-ip-address: true #显示访问url 客户端在注册时使用自己的IP而不是主机名
+    #    # 实例id
+    #    instance-id: ${spring.cloud.ip-address}:${spring.application.name}:${server.port}
+    instance-id: Service1  #注册中心显示出来的微服务名称
+
+#mybatis-plus:
+#  mapper-locations:  classpath:mapper/*.xml

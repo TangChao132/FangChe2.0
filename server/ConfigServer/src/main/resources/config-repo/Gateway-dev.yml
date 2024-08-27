@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: Gateway
+  cloud:
+    gateway:
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*" # 允许哪些网站的跨域请求
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            # allowCredentials: true # 是否允许携带cookie 此项开启无法在allowedOrigins中使用"*"通配符
+            maxAge: 360000 # 这次跨域检测的有效期
+
+server:
+  port: 8080
+
+eureka:
+  client: #客户端注册到eureka列表中
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    prefer-ip-address: true #显示访问url 客户端在注册时使用自己的IP而不是主机名
+    #    # 实例id
+    #    instance-id: ${spring.cloud.ip-address}:${spring.application.name}:${server.port}
+    instance-id: Gateway  #注册中心显示出来的微服务名称
